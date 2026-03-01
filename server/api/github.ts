@@ -61,6 +61,9 @@ interface GithubCommit {
   ];
 }
 
+const FORK_REPOSITORY = 'Biller007/seerr-episode-search';
+const FORK_DEFAULT_BRANCH = 'main';
+
 class GithubAPI extends ExternalAPI {
   constructor() {
     super(
@@ -83,7 +86,7 @@ class GithubAPI extends ExternalAPI {
   } = {}): Promise<GitHubRelease[]> {
     try {
       const data = await this.get<GitHubRelease[]>(
-        '/repos/seerr-team/seerr/releases',
+        `/repos/${FORK_REPOSITORY}/releases`,
         {
           params: {
             per_page: take,
@@ -94,7 +97,7 @@ class GithubAPI extends ExternalAPI {
       return data;
     } catch (e) {
       logger.warn(
-        "Failed to retrieve GitHub releases. This may be an issue on GitHub's end. Seerr can't check if it's on the latest version.",
+        "Failed to retrieve fork releases. This may be an issue on GitHub's end. Seerr can't check if it's on the latest version.",
         { label: 'GitHub API', errorMessage: e.message }
       );
       return [];
@@ -103,14 +106,14 @@ class GithubAPI extends ExternalAPI {
 
   public async getSeerrCommits({
     take = 20,
-    branch = 'develop',
+    branch = FORK_DEFAULT_BRANCH,
   }: {
     take?: number;
     branch?: string;
   } = {}): Promise<GithubCommit[]> {
     try {
       const data = await this.get<GithubCommit[]>(
-        '/repos/seerr-team/seerr/commits',
+        `/repos/${FORK_REPOSITORY}/commits`,
         {
           params: {
             per_page: take,
@@ -122,7 +125,7 @@ class GithubAPI extends ExternalAPI {
       return data;
     } catch (e) {
       logger.warn(
-        "Failed to retrieve GitHub commits. This may be an issue on GitHub's end. Seerr can't check if it's on the latest version.",
+        "Failed to retrieve fork commits. This may be an issue on GitHub's end. Seerr can't check if it's on the latest version.",
         { label: 'GitHub API', errorMessage: e.message }
       );
       return [];

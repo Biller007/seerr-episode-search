@@ -15,9 +15,15 @@ import type {
 import { useIntl } from 'react-intl';
 import useSWR from 'swr';
 
+const FORK_REPO_URL = 'https://github.com/Biller007/seerr-episode-search';
+const FORK_REPO_COMPARE_URL = `${FORK_REPO_URL}/compare`;
+const FORK_REPO_COMMITS_URL = `${FORK_REPO_URL}/commits/main`;
+const FORK_REPO_RELEASES_URL = `${FORK_REPO_URL}/releases`;
+const FORK_REPO_DISCUSSIONS_URL = `${FORK_REPO_URL}/discussions`;
+
 const messages = defineMessages('components.Settings.SettingsAbout', {
   about: 'About',
-  aboutseerr: 'About Seerr',
+  aboutseerr: 'About Episode Search Fork',
   version: 'Version',
   totalmedia: 'Total Media',
   totalrequests: 'Total Requests',
@@ -33,7 +39,7 @@ const messages = defineMessages('components.Settings.SettingsAbout', {
   betawarning:
     'This is BETA software. Features may be broken and/or unstable. Please report any issues on GitHub!',
   runningDevelop:
-    'You are running the <code>develop</code> branch of Seerr, which is only recommended for those contributing to development or assisting with bleeding-edge testing.',
+    'You are running the <code>main</code> branch build of this Episode Search fork. Update notices compare this install against the latest commit in your GitHub repository.',
 });
 
 const SettingsAbout = () => {
@@ -71,7 +77,7 @@ const SettingsAbout = () => {
             </p>
             <p className="mt-3 text-sm leading-5 md:ml-6 md:mt-0">
               <a
-                href="http://github.com/seerr-team/seerr"
+                href={FORK_REPO_URL}
                 className="whitespace-nowrap font-medium text-gray-100 transition duration-150 ease-in-out hover:text-white"
                 target="_blank"
                 rel="noreferrer"
@@ -105,8 +111,8 @@ const SettingsAbout = () => {
                 <a
                   href={
                     data.version.startsWith('develop-')
-                      ? `https://github.com/seerr-team/seerr/compare/${status.commitTag}...develop`
-                      : 'https://github.com/seerr-team/seerr/releases'
+                      ? `${FORK_REPO_COMPARE_URL}/${status.commitTag}...main`
+                      : FORK_REPO_RELEASES_URL
                   }
                   target="_blank"
                   rel="noopener noreferrer"
@@ -122,8 +128,8 @@ const SettingsAbout = () => {
                 <a
                   href={
                     data.version.startsWith('develop-')
-                      ? 'https://github.com/seerr-team/seerr/commits/develop'
-                      : 'https://github.com/seerr-team/seerr/releases'
+                      ? FORK_REPO_COMMITS_URL
+                      : FORK_REPO_RELEASES_URL
                   }
                   target="_blank"
                   rel="noopener noreferrer"
@@ -167,12 +173,12 @@ const SettingsAbout = () => {
           </List.Item>
           <List.Item title={intl.formatMessage(messages.githubdiscussions)}>
             <a
-              href="https://github.com/seerr-team/seerr/discussions"
+              href={FORK_REPO_DISCUSSIONS_URL}
               target="_blank"
               rel="noreferrer"
               className="text-indigo-500 transition duration-300 hover:underline"
             >
-              https://github.com/seerr-team/seerr/discussions
+              {FORK_REPO_DISCUSSIONS_URL}
             </a>
           </List.Item>
           <List.Item title="Discord">
