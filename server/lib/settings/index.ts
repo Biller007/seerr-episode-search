@@ -335,6 +335,31 @@ interface JobSettings {
   schedule: string;
 }
 
+export type EpisodeSearchInterval = 'manual' | 'hourly' | '12hours' | '24hours';
+
+export interface EpisodeSearchStats {
+  totalChecks: number;
+  manualChecks: number;
+  scheduledChecks: number;
+  totalEpisodeSearchesTriggered: number;
+  totalMovieSearchesTriggered: number;
+  lastCheckedAt?: string;
+  lastRunSource?: 'manual' | 'scheduled';
+}
+
+export interface EpisodeSearchLogEntry {
+  timestamp: string;
+  message: string;
+}
+
+export interface EpisodeSearchSettings {
+  interval: EpisodeSearchInterval;
+  maxItems: number;
+  maxSonarrPages: number;
+  stats: EpisodeSearchStats;
+  logs: EpisodeSearchLogEntry[];
+}
+
 export type JobId =
   | 'plex-recently-added-scan'
   | 'plex-full-scan'
@@ -365,6 +390,7 @@ export interface AllSettings {
   jobs: Record<JobId, JobSettings>;
   network: NetworkSettings;
   metadataSettings: MetadataSettings;
+  episodeSearch: EpisodeSearchSettings;
   migrations: string[];
 }
 
@@ -429,6 +455,19 @@ class Settings {
       metadataSettings: {
         tv: MetadataProviderType.TMDB,
         anime: MetadataProviderType.TMDB,
+      },
+      episodeSearch: {
+        interval: 'manual',
+        maxItems: 5,
+        maxSonarrPages: 5,
+        stats: {
+          totalChecks: 0,
+          manualChecks: 0,
+          scheduledChecks: 0,
+          totalEpisodeSearchesTriggered: 0,
+          totalMovieSearchesTriggered: 0,
+        },
+        logs: [],
       },
       radarr: [],
       sonarr: [],
@@ -717,6 +756,14 @@ class Settings {
 
   set jobs(data: Record<JobId, JobSettings>) {
     this.data.jobs = data;
+  }
+
+  get episodeSearch(): EpisodeSearchSettings {
+    return this.data.episodeSearch;
+  }
+
+  set episodeSearch(data: EpisodeSearchSettings) {
+    this.data.episodeSearch = data;
   }
 
   get network(): NetworkSettings {

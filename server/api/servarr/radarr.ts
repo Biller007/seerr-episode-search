@@ -19,6 +19,9 @@ export interface RadarrMovie {
   title: string;
   isAvailable: boolean;
   monitored: boolean;
+  digitalRelease?: string;
+  physicalRelease?: string;
+  inCinemas?: string;
   tmdbId: number;
   imdbId: string;
   titleSlug: string;
@@ -261,6 +264,27 @@ class RadarrAPI extends ServarrBase<{ movieId: number }> {
           movieId,
         }
       );
+    }
+  }
+
+  public async searchMovies(movieIds: number[]): Promise<void> {
+    logger.info('Executing movie search command batch', {
+      label: 'Radarr API',
+      movieCount: movieIds.length,
+    });
+
+    try {
+      await this.runCommand('MoviesSearch', { movieIds });
+    } catch (e) {
+      logger.error(
+        'Something went wrong while executing Radarr movie search batch.',
+        {
+          label: 'Radarr API',
+          errorMessage: e.message,
+          movieCount: movieIds.length,
+        }
+      );
+      throw new Error('Failed to search movies');
     }
   }
   public removeMovie = async (movieId: number): Promise<void> => {

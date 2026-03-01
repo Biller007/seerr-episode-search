@@ -129,7 +129,7 @@ jobs:
 
   build:
     name: Build (per-arch, native runners)
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop' && github.repository == 'seerr-team/seerr'
     strategy:
       matrix:
         include:
@@ -170,6 +170,7 @@ jobs:
 
   publish:
     name: Publish multi-arch image
+    if: github.repository == 'seerr-team/seerr'
     needs: build
     runs-on: ubuntu-24.04
     permissions:
@@ -237,7 +238,7 @@ jobs:
   discord:
     name: Send Discord Notification
     needs: publish
-    if: always() && github.event_name != 'pull_request'
+    if: always() && github.event_name != 'pull_request' && github.repository == 'seerr-team/seerr'
     runs-on: ubuntu-24.04
     steps:
       - name: Determine Workflow Status

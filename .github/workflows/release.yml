@@ -20,6 +20,7 @@ env:
 jobs:
   changelog:
     name: Generate changelog
+    if: github.repository == 'seerr-team/seerr'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -44,6 +45,7 @@ jobs:
 
   create-draft-release:
     name: Create draft release
+    if: github.repository == 'seerr-team/seerr'
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -62,6 +64,7 @@ jobs:
 
   build:
     name: Build (${{ matrix.arch }})
+    if: github.repository == 'seerr-team/seerr'
     strategy:
       matrix:
         include:
@@ -104,6 +107,7 @@ jobs:
 
   publish:
     name: Publish multi-arch manifests
+    if: github.repository == 'seerr-team/seerr'
     needs: build
     runs-on: ubuntu-24.04
     permissions:
@@ -190,6 +194,7 @@ jobs:
 
   sign:
     name: Sign images and create SBOM attestations
+    if: github.repository == 'seerr-team/seerr'
     needs: publish
     runs-on: ubuntu-24.04
     permissions:
@@ -258,6 +263,7 @@ jobs:
           retention-days: 1
 
   verify:
+    if: github.repository == 'seerr-team/seerr'
     name: Verify signatures and attestations
     needs: [publish, sign]
     runs-on: ubuntu-24.04
@@ -292,6 +298,7 @@ jobs:
       #       --certificate-oidc-issuer "https://token.actions.githubusercontent.com" > /dev/null
 
   publish-release:
+    if: github.repository == 'seerr-team/seerr'
     name: Publish release
     needs: [create-draft-release, verify]
     runs-on: ubuntu-24.04

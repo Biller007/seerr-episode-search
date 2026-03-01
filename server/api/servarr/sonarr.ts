@@ -29,6 +29,13 @@ interface EpisodeResult {
   id: number;
 }
 
+interface MissingEpisodesResponse {
+  page: number;
+  pageSize: number;
+  totalRecords: number;
+  records: EpisodeResult[];
+}
+
 export interface SonarrSeries {
   title: string;
   sortTitle: string;
@@ -346,6 +353,54 @@ class SonarrAPI extends ServarrBase<{
           seriesId,
         }
       );
+    }
+  }
+
+  public async getMissingEpisodes({
+    page = 1,
+    pageSize = 1000,
+  }: {
+    page?: number;
+    pageSize?: number;
+  } = {}): Promise<MissingEpisodesResponse> {
+    try {
+      const response = await this.axios.get<MissingEpisodesResponse>(
+        '/wanted/missing',
+        {
+          params: { page, pageSize },
+        }
+      );
+
+      return response.data;
+    } catch (e) {
+      logger.error('Failed to retrieve missing episodes', {
+        label: 'Sonarr API',
+        errorMessage: e.message,
+        page,
+        pageSize,
+      });
+      throw new Error('Failed to get missing episodes');
+    }
+  }
+
+  public async searchEpisodes(episodeIds: number[]): Promise<void> {
+    logger.info('Executing episode search command.', {
+      label: 'Sonarr API',
+      episodeCount: episodeIds.length,
+    });
+
+    try {
+      await this.runCommand('EpisodeSearch', { episodeIds });
+    } catch (e) {
+      logger.error(
+        'Something went wrong while executing Sonarr episode search.',
+        {
+          label: 'Sonarr API',
+          errorMessage: e.message,
+          episodeCount: episodeIds.length,
+        }
+      );
+      throw new Error('Failed to search episodes');
     }
   }
 

@@ -2184,6 +2184,156 @@ paths:
                   appDataPermissions:
                     type: boolean
                     example: true
+  /episode-search:
+    get:
+      summary: Get Episode Search overview
+      description: Returns Episode Search configuration, counters, next run time, and current Sonarr/Radarr eligible counts.
+      tags:
+        - settings
+      responses:
+        '200':
+          description: Episode Search overview
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sonarr:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        name:
+                          type: string
+                        is4k:
+                          type: boolean
+                        isDefault:
+                          type: boolean
+                        missingCount:
+                          type: number
+                          nullable: true
+                        error:
+                          type: string
+                          nullable: true
+                  radarr:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        name:
+                          type: string
+                        is4k:
+                          type: boolean
+                        isDefault:
+                          type: boolean
+                        missingCount:
+                          type: number
+                          nullable: true
+                        error:
+                          type: string
+                          nullable: true
+                  config:
+                    type: object
+                    properties:
+                      interval:
+                        type: string
+                        enum:
+                          - manual
+                          - hourly
+                          - 12hours
+                          - 24hours
+                      maxItems:
+                        type: number
+                      maxSonarrPages:
+                        type: number
+                  stats:
+                    type: object
+                    properties:
+                      totalChecks:
+                        type: number
+                      manualChecks:
+                        type: number
+                      scheduledChecks:
+                        type: number
+                      totalEpisodeSearchesTriggered:
+                        type: number
+                      totalMovieSearchesTriggered:
+                        type: number
+                      lastCheckedAt:
+                        type: string
+                        nullable: true
+                      lastRunSource:
+                        type: string
+                        nullable: true
+                  nextRunAt:
+                    type: string
+                    nullable: true
+                  isRunning:
+                    type: boolean
+  /episode-search/run:
+    post:
+      summary: Run Episode Search manually
+      description: Triggers a manual Episode Search run against configured Sonarr and Radarr services.
+      tags:
+        - settings
+      responses:
+        '200':
+          description: Manual Episode Search result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  episodeSearchesTriggered:
+                    type: number
+                  movieSearchesTriggered:
+                    type: number
+  /episode-search/settings:
+    post:
+      summary: Update Episode Search settings
+      description: Updates Episode Search scheduling and search caps.
+      tags:
+        - settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interval:
+                  type: string
+                  enum:
+                    - manual
+                    - hourly
+                    - 12hours
+                    - 24hours
+                maxItems:
+                  type: number
+                maxSonarrPages:
+                  type: number
+      responses:
+        '200':
+          description: Episode Search settings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interval:
+                    type: string
+                  maxItems:
+                    type: number
+                  maxSonarrPages:
+                    type: number
+                  stats:
+                    type: object
   /settings/main:
     get:
       summary: Get main settings

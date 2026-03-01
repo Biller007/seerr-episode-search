@@ -5,6 +5,7 @@ import DiscoverSlider from '@server/entity/DiscoverSlider';
 import { Session } from '@server/entity/Session';
 import { User } from '@server/entity/User';
 import { startJobs } from '@server/job/schedule';
+import episodeSearchManager from '@server/lib/episodeSearch';
 import notificationManager from '@server/lib/notifications';
 import DiscordAgent from '@server/lib/notifications/agents/discord';
 import EmailAgent from '@server/lib/notifications/agents/email';
@@ -137,6 +138,8 @@ app
       new WebhookAgent(),
       new WebPushAgent(),
     ]);
+
+    episodeSearchManager.start();
 
     const userRepository = getRepository(User);
     const totalUsers = await userRepository.count();

@@ -1,77 +1,78 @@
-<p align="center">
-<img src="./public/logo_full.svg" alt="Seerr" style="margin: 20px 0;">
-</p>
-<p align="center">
-<img src="https://github.com/seerr-team/seerr/actions/workflows/release.yml/badge.svg" alt="Seerr Release" />
-<img src="https://github.com/seerr-team/seerr/actions/workflows/ci.yml/badge.svg" alt="Seerr CI">
-</p>
-<p align="center">
-<a href="https://discord.gg/seerr"><img src="https://img.shields.io/discord/783137440809746482" alt="Discord"></a>
-<a href="https://hub.docker.com/r/seerr/seerr"><img src="https://img.shields.io/docker/pulls/seerr/seerr" alt="Docker pulls"></a>
-<a href="https://translate.seerr.dev/engage/seerr/"><img src="https://translate.seerr.dev/widget/seerr/svg-badge.svg" alt="Translation status" /></a>
-<a href="https://github.com/seerr-team/seerr/blob/develop/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/seerr-team/seerr"></a>
+# Episode Search Fork For Seerr
 
-**Seerr** is a free and open source software application for managing requests for your media library. It integrates with the media server of your choice: [Jellyfin](https://jellyfin.org), [Plex](https://plex.tv), and [Emby](https://emby.media/). In addition, it integrates with your existing services, such as **[Sonarr](https://sonarr.tv/)**, **[Radarr](https://radarr.video/)**.
+This repository is a standalone Seerr fork with an added admin-only `Episode Search` page for running missing Sonarr and Radarr searches from inside the Seerr UI.
 
-## Current Features
+## What this fork adds
 
-- Full Jellyfin/Emby/Plex integration including authentication with user import & management.
-- Support for **PostgreSQL** and **SQLite** databases.
-- Supports Movies, Shows and Mixed Libraries.
-- Ability to change email addresses for SMTP purposes.
-- Easy integration with your existing services. Currently, Seerr supports Sonarr and Radarr. More to come!
-- Jellyfin/Emby/Plex library scan, to keep track of the titles which are already available.
-- Customizable request system, which allows users to request individual seasons or movies in a friendly, easy-to-use interface.
-- Incredibly simple request management UI. Don't dig through the app to simply approve recent requests!
-- Granular permission system.
-- Support for various notification agents.
-- Mobile-friendly design, for when you need to approve requests on the go!
-- Support for watchlisting & blocklisting media.
+- Admin sidebar entry: `Episode Search`
+- Missing Sonarr search logic limited to episodes that have already aired
+- Missing Radarr movie search controls
+- Manual scan support
+- Built-in schedule options:
+  - manual only
+  - once hourly
+  - once every 12 hours
+  - once every 24 hours
+- Episode Search counters and activity log
 
-With more features on the way! Check out our [issue tracker](/../../issues) to see the features which have already been requested.
+## Upstream behavior
 
-## Getting Started
+This fork does **not** auto-update when upstream Seerr changes.
 
-Check out our documentation for instructions on how to install and run Seerr:
+- Nothing is pulled from `seerr-team/seerr` automatically
+- Upstream merges are manual
+- You control if and when this fork is rebased or merged with upstream changes
 
-https://docs.seerr.dev/getting-started/
+## Install
 
-## Preview
+Start with the install guide:
 
-<img src="./public/preview.jpg" alt="Seerr application preview" />
+- [docs/INSTALL.md](./docs/INSTALL.md)
 
-## Migrating from Overseerr/Jellyseerr to Seerr
+For Docker Compose using a GHCR image, see:
 
-Read our [release announcement](https://docs.seerr.dev/blog/seerr-release) to learn what Seerr means for Jellyseerr and Overseerr users.
+- [docker-compose.ghcr.yml](./docker-compose.ghcr.yml)
 
-Please follow our [migration guide](https://docs.seerr.dev/migration-guide) for detailed instructions on migrating from Overseerr or Jellyseerr.
+## Container image
 
-## Support
+The included GitHub Actions workflow publishes a multi-arch image to:
 
-- Check out the [Seerr Documentation](https://docs.seerr.dev) before asking for help. Your question might already be in the docs!
-- You can get support on [Discord](https://discord.gg/seerr).
-- You can ask questions in the Help category of our [GitHub Discussions](/../../discussions).
-- Bug reports and feature requests can be submitted via [GitHub Issues](/../../issues).
+```text
+ghcr.io/<github-owner>/<github-repo>:latest
+```
 
-## API Documentation
+Example:
 
-You can access the API documentation from your local Seerr install at http://localhost:5055/api-docs
+```text
+ghcr.io/biller007/<your-repo>:latest
+```
 
-## Community
+## Local development
 
-You can ask questions, share ideas, and more in [GitHub Discussions](/../../discussions).
+Install dependencies:
 
-If you would like to chat with other members of our growing community, [join the Seerr Discord server](https://discord.gg/seerr)!
+```bash
+corepack pnpm install
+```
 
-Our [Code of Conduct](./CODE_OF_CONDUCT.md) applies to all Seerr community channels.
+Run locally:
 
-## Contributing
+```bash
+PORT=9715 corepack pnpm exec ts-node -r tsconfig-paths/register --files --project server/tsconfig.json server/index.ts
+```
 
-You can help improve Seerr too! Check out our [Contribution Guide](./CONTRIBUTING.md) to get started.
+Then open:
 
-## Contributors ✨
+```text
+http://<machine-ip>:9715
+```
 
-[![Contributors](https://opencollective.com/seerr/contributors.svg?width=890)](https://opencollective.com/seerr/#backers)
+## Notes
 
-[![Become a Backer](https://opencollective.com/seerr/backers.svg)](https://opencollective.com/seerr/#backers)
-[![Become a Sponsor](https://opencollective.com/seerr/sponsors.svg)](https://opencollective.com/seerr/#sponsors)
+- Seerr uses a setup flow on first run, so the app may redirect to `/setup` until initialization is complete.
+- The Episode Search page is admin-only.
+- The default internal container port remains `5055`. The example Compose file maps host port `9715`.
+
+## Credit
+
+This fork is based on [Seerr](https://github.com/seerr-team/seerr) and keeps Seerr's existing license and core application structure.
