@@ -38,13 +38,7 @@ For Docker Compose using a GHCR image, see:
 The included GitHub Actions workflow publishes a multi-arch image to:
 
 ```text
-ghcr.io/<github-owner>/<github-repo>:latest
-```
-
-Example:
-
-```text
-ghcr.io/biller007/<your-repo>:latest
+ghcr.io/biller007/seerr-episode-search:latest
 ```
 
 ## Local development
@@ -72,6 +66,7 @@ http://<machine-ip>:9715
 - Seerr uses a setup flow on first run, so the app may redirect to `/setup` until initialization is complete.
 - The Episode Search page is admin-only.
 - The default internal container port remains `5055`. The example Compose file maps host port `9715`.
+- The default example timezone is `UTC`.
 
 ## Credit
 

@@ -8,7 +8,7 @@
 4. Pull the image from:
 
 ```text
-ghcr.io/<github-owner>/<github-repo>:latest
+ghcr.io/biller007/seerr-episode-search:latest
 ```
 
 Use the example file:
@@ -57,6 +57,12 @@ http://<server-ip>:9715
 ## Persistence
 
 Mount the `config` directory so Seerr settings, setup state, and Episode Search settings/logs persist across restarts.
+
+The example Compose file uses:
+
+```text
+TZ=UTC
+```
 
 ## No automatic upstream sync
 

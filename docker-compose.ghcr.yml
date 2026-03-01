@@ -1,6 +1,6 @@
 services:
   seerr:
-    image: ghcr.io/CHANGE_ME_OWNER/CHANGE_ME_REPO:latest
+    image: ghcr.io/biller007/seerr-episode-search:latest
     container_name: seerr-episode-search
     restart: unless-stopped
     ports:
