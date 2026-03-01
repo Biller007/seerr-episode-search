@@ -74,3 +74,6 @@ config/cache
 
 # Docker compose
 compose.override.yaml
+
+# Local helper bundles
+episode-search-feature-b90991b3.txt
