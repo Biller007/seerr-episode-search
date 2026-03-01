@@ -1,6 +1,7 @@
 import Badge from '@app/components/Common/Badge';
 import UserWarnings from '@app/components/Layout/UserWarnings';
 import VersionStatus from '@app/components/Layout/VersionStatus';
+import { episodeSearchSidebarLink } from '@app/config/episodeSearchNavItem';
 import useClickOutside from '@app/hooks/useClickOutside';
 import { Permission, useUser } from '@app/hooks/useUser';
 import defineMessages from '@app/utils/defineMessages';
@@ -11,7 +12,6 @@ import {
   ExclamationTriangleIcon,
   EyeSlashIcon,
   FilmIcon,
-  MagnifyingGlassIcon,
   SparklesIcon,
   TvIcon,
   UsersIcon,
@@ -80,14 +80,7 @@ const SidebarLinks: SidebarLinkProps[] = [
     svgIcon: <ClockIcon className="mr-3 h-6 w-6" />,
     activeRegExp: /^\/requests/,
   },
-  {
-    href: '/episode-search',
-    messagesKey: 'episodesearch',
-    svgIcon: <MagnifyingGlassIcon className="mr-3 h-6 w-6" />,
-    activeRegExp: /^\/episode-search/,
-    requiredPermission: Permission.ADMIN,
-    dataTestId: 'sidebar-menu-episode-search',
-  },
+  episodeSearchSidebarLink,
   {
     href: '/blocklist',
     messagesKey: 'blocklist',

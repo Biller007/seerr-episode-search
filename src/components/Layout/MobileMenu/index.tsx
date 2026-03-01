@@ -1,5 +1,6 @@
 import Badge from '@app/components/Common/Badge';
 import { menuMessages } from '@app/components/Layout/Sidebar';
+import { episodeSearchMobileLink } from '@app/config/episodeSearchNavItem';
 import useClickOutside from '@app/hooks/useClickOutside';
 import { Permission, useUser } from '@app/hooks/useUser';
 import { Transition } from '@headlessui/react';
@@ -10,7 +11,6 @@ import {
   ExclamationTriangleIcon,
   EyeSlashIcon,
   FilmIcon,
-  MagnifyingGlassIcon,
   SparklesIcon,
   TvIcon,
   UsersIcon,
@@ -21,7 +21,6 @@ import {
   ExclamationTriangleIcon as FilledExclamationTriangleIcon,
   EyeSlashIcon as FilledEyeSlashIcon,
   FilmIcon as FilledFilmIcon,
-  MagnifyingGlassIcon as FilledMagnifyingGlassIcon,
   SparklesIcon as FilledSparklesIcon,
   TvIcon as FilledTvIcon,
   UsersIcon as FilledUsersIcon,
@@ -102,13 +101,8 @@ const MobileMenu = ({
       activeRegExp: /^\/requests/,
     },
     {
-      href: '/episode-search',
+      ...episodeSearchMobileLink,
       content: intl.formatMessage(menuMessages.episodesearch),
-      svgIcon: <MagnifyingGlassIcon className="h-6 w-6" />,
-      svgIconSelected: <FilledMagnifyingGlassIcon className="h-6 w-6" />,
-      activeRegExp: /^\/episode-search/,
-      requiredPermission: Permission.ADMIN,
-      dataTestId: 'sidebar-menu-episode-search',
     },
     {
       href: '/blocklist',
