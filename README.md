@@ -28,6 +28,8 @@ This fork does **not** auto-update when upstream Seerr changes.
 Start with the install guide:
 
 - [docs/INSTALL.md](./docs/INSTALL.md)
+- [docs/RELEASING.md](./docs/RELEASING.md)
+- [CHANGELOG.md](./CHANGELOG.md)
 
 For Docker Compose using a GHCR image, see:
 
