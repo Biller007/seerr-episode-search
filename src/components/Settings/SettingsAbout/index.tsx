@@ -33,7 +33,7 @@ const messages = defineMessages('components.Settings.SettingsAbout', {
   betawarning:
     'This is BETA software. Features may be broken and/or unstable. Please report any issues on GitHub!',
   runningDevelop:
-    'You are running the <code>develop</code> branch of Seerr, which is only recommended for those contributing to development or assisting with bleeding-edge testing.',
+    'You are tracking the <code>main</code> branch of Seerr for stable upstream releases.',
 });
 
 const SettingsAbout = () => {
@@ -105,7 +105,7 @@ const SettingsAbout = () => {
                 <a
                   href={
                     data.version.startsWith('develop-')
-                      ? `https://github.com/seerr-team/seerr/compare/${status.commitTag}...develop`
+                      ? `https://github.com/seerr-team/seerr/compare/${status.commitTag}...main`
                       : 'https://github.com/seerr-team/seerr/releases'
                   }
                   target="_blank"
@@ -122,7 +122,7 @@ const SettingsAbout = () => {
                 <a
                   href={
                     data.version.startsWith('develop-')
-                      ? 'https://github.com/seerr-team/seerr/commits/develop'
+                      ? 'https://github.com/seerr-team/seerr/commits/main'
                       : 'https://github.com/seerr-team/seerr/releases'
                   }
                   target="_blank"

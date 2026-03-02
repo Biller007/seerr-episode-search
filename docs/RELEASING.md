@@ -46,7 +46,7 @@ If you want upstream changes:
 
 ```bash
 git fetch upstream
-git merge upstream/develop
+git merge upstream/main
 ```
 
 Review changes before pushing to `origin/main`.

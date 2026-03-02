@@ -106,7 +106,7 @@ Please be respectful to maintainers and disclose AI assistance.
 
      ```bash
      git fetch upstream
-     git rebase upstream/develop
+     git rebase upstream/main
      git push origin BRANCH_NAME -f
      ```
 
