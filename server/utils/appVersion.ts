@@ -19,11 +19,9 @@ export const getAppVersion = (): string => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { version } = require('../../package.json');
 
-  let finalVersion = version;
-
   if (version === '0.1.0') {
-    finalVersion = `develop-${getCommitTag()}`;
+    return `develop-${getCommitTag()}`;
   }
 
-  return finalVersion;
+  return `v${version}`;
 };
